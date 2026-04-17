@@ -1,0 +1,14 @@
+{
+  "name": "ai-prioritization-framework",
+  "version": "0.1.0",
+  "description": "A 6-step framework for identifying, evaluating, and selecting AI use cases in B2B marketing and operations.",
+  "author": {
+    "name": "Wolfgang Strassburger",
+    "email": "w.strassburger@onemedia-consulting.com",
+    "url": "https://onemedia-consulting.com"
+  },
+  "homepage": "https://github.com/Onemedia-Consulting/ai-prioritization-framework",
+  "repository": "https://github.com/Onemedia-Consulting/ai-prioritization-framework",
+  "license": "MIT",
+  "keywords": ["ai", "prioritization", "marketing-automation", "martech", "b2b", "marketo"]
+}
