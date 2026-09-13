@@ -11,6 +11,16 @@ In Claude Code:
 /plugin install ai-prioritization-framework
 ```
 
+The branded deliverables (one-page brief, dashboard, executive summary) read the Onemedia design
+system. Install it alongside — it is a private Onemedia-Consulting package, so this needs org access:
+
+```
+/plugin marketplace add Onemedia-Consulting/design-system
+/plugin install onemedia-design
+```
+
+Without it the skill still runs end to end and renders unbranded deliverables.
+
 That's it. The skill activates automatically when you ask Claude things like:
 
 - "Where should we start with AI?"

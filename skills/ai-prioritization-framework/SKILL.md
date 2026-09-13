@@ -330,7 +330,7 @@ If any of these are missing, the initiative is at risk of becoming AI theater �
 ## Visual Identity for Deliverables
 
 Every artifact renders in the Onemedia design system — **`Onemedia-Consulting/design-system`
-v1.2.0**, the single source of truth for the brand. This skill no longer carries its own copy of
+v1.3.0**, the single source of truth for the brand. This skill no longer carries its own copy of
 the tokens: the tables that used to live here had drifted from the brand guideline and from each
 other. Read the brand from the package, never from memory:
 
@@ -343,8 +343,14 @@ other. Read the brand from the package, never from memory:
 - `assets/logo/`, `assets/icons/{color,white}/`, `assets/partners/` — logo, icon set, Molequle mark.
 - `docs/contrast.md` — which pairings may carry text.
 
-The package is available as the `onemedia-design` Claude Code plugin or a checkout of the repo.
-If neither is present, say so and ask for it — do not reconstruct values from memory.
+The package is installed as the `onemedia-design` Claude Code plugin (README → Install) — invoke
+the `onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
+(`gh repo clone Onemedia-Consulting/design-system`, tag above). If neither is present when the
+finale triggers, do not stop and do not reconstruct values from memory: offer the two install
+lines once, and if the user declines or has no access to the private package, render the
+deliverables **unbranded** — system fonts, neutral greys, status *words* instead of status
+colours, no logo — and label them "unbranded; install `onemedia-design` for the branded version".
+The workflow, scores and content never depend on the design system.
 
 ### Skill-specific mapping
 
