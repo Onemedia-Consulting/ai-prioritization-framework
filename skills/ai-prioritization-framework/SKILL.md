@@ -343,14 +343,23 @@ other. Read the brand from the package, never from memory:
 - `assets/logo/`, `assets/icons/{color,white}/`, `assets/partners/` — logo, icon set, Molequle mark.
 - `docs/contrast.md` — which pairings may carry text.
 
-The package is installed as the `onemedia-design` Claude Code plugin (README → Install) — invoke
-the `onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
+The package is installed as the `onemedia-design` Claude Code plugin — invoke the
+`onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
 (`gh repo clone Onemedia-Consulting/design-system -- --branch v1.3.0`, the tag named above).
-**Check for the package once, at kickoff, before any step runs.** The result — branded or
-unbranded — holds for every render in the session, including the Interactive Dashboard after
-Step 4 and the finale. If it is absent, do not stop and do not reconstruct values from memory:
-offer the two install lines once, and if the user declines or has no access to the private
-package, render every deliverable **unbranded** — system fonts, neutral greys, status *words*
+**Check for the package once, at kickoff, before any step runs**, and read its version from
+`.claude-plugin/plugin.json` (or `package.json`): it must be 1.3.x. A different version is not
+"absent" — use it, but state the mismatch in the deliverable label ("brand: design-system vX.Y.Z,
+skill pinned to 1.3.0") so drift is visible; never mix values from two versions. The result —
+branded or unbranded — holds for every render in the session, including the Interactive
+Dashboard after Step 4 and the finale. If the package is absent, do not stop and do not
+reconstruct values from memory: offer these two lines once —
+
+```
+/plugin marketplace add Onemedia-Consulting/design-system
+/plugin install onemedia-design
+```
+
+— and if the user declines or has no access to the private package, render every deliverable **unbranded** — system fonts, neutral greys, status *words*
 instead of status colours, no logo or mark, the text-only attribution variant (see Attribution
 system) — and label it "unbranded; install `onemedia-design` for the branded version". The
 workflow, scores and content never depend on the design system.
@@ -422,8 +431,8 @@ A self-contained HTML artifact generated via the `web-artifacts-builder` skill �
 
 Contents:
 - **Header band** — hero gradient `--om-grad-hero` (Dark Purple → Shadow) with a Flash Green ring and a Lilac ring overlapping on the **right side** (signature Onemedia keyvisual — positioned right so the title and tagline on the left stay readable). Krona One title: "AI PRIORITIZATION DASHBOARD".
-- **Prio 1 cards** — pinned at top, dark gradient cards with a `--om-flash-green` accent bar, each showing use case name, owner, success metric, and the 5 criterion scores as color chips.
-- **Scored matrix** — clickable table. Each score cell uses its Flash Color as background. Hovering reveals *why* that criterion scored Green/Yellow/Red in a small tooltip.
+- **Prio 1 cards** — pinned at top, dark gradient cards with a `--om-flash-green` accent bar, each showing use case name, owner, success metric, and the 5 criterion scores as status chips: `--chart-status-good` / `-warning` / `-critical` fill with the matching `-text` ink and the word (Green / Yellow / Red), never colour alone.
+- **Scored matrix** — clickable table. Each score cell uses the status pair from `tokens/charts.css` (`--chart-status-*` background, `--chart-status-*-text` ink) and carries the status word; brand swatches are not chart colours. Hovering reveals *why* that criterion scored Green/Yellow/Red in a small tooltip.
 - **Impact / Effort 2×2** — real grid with use-case chips positioned by their scores; the Quick Wins quadrant (top-left) is tinted `--om-green-20`.
 - **Executive summary card** — bottom, light surface gradient, Krona One heading, Europa Light body, attribution footer.
 
