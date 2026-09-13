@@ -90,7 +90,7 @@ Between each of the 6 steps, emit a compact progress line. This is a small touch
 
 - 6 blocks total. Filled = `▓`, empty = `░`.
 - The step number and name after the bar.
-- Render this in chat as plain text. In any rendered artifact (HTML dashboard, slide, doc), draw it as a real progress bar — Shadow (`#226975`) fill on Lightgrey (`#D6DDE6`) track, with a Flash Green (`#34E2A8`) tip on the leading edge of the filled portion.
+- Render this in chat as plain text. In any rendered artifact (HTML dashboard, slide, doc), draw it as a real progress bar — `--om-shadow` fill on `--om-lightgrey` track, with a `--om-flash-green` tip on the leading edge of the filled portion (tokens from the design system).
 
 ### Checkpoint bridge
 
@@ -329,128 +329,81 @@ If any of these are missing, the initiative is at risk of becoming AI theater �
 
 ## Visual Identity for Deliverables
 
-Every artifact you produce — Word doc, slide deck, HTML dashboard, one-pager — renders in the Onemedia Consulting brand system. Consult this section before invoking `docx`, `pptx`, `web-artifacts-builder`, `canvas-design`, or `theme-factory`. Pass the tokens below into the theming layer of whichever tool you use.
+Every artifact renders in the Onemedia design system — **`Onemedia-Consulting/design-system`
+v1.3.0**, the single source of truth for the brand. This skill no longer carries its own copy of
+the tokens: the tables that used to live here had drifted from the brand guideline and from each
+other. Read the brand from the package, never from memory:
 
-### Brand tokens
+- `presentation/omc-brand.md` — the presentation-layer block: status colours, type, composition,
+  per-tool directives (Markdown, `docx`, `pptx`/`theme-factory`, HTML/`web-artifacts-builder`,
+  `canvas-design`), attribution rules.
+- `tokens/tokens.json` — every colour, tint, gradient, type step, spacing, radius, shadow, motion
+  value and the font-face inventory; `tokens/charts.css` — validated series, ordinal and status
+  palettes for scorecards and charts (brand swatches are not series colours).
+- `assets/logo/`, `assets/icons/{color,white}/`, `assets/partners/` — logo, icon set, Molequle mark.
+- `docs/contrast.md` — which pairings may carry text.
 
-**Flash Colors** (confirmed hex — these are the official Onemedia signal colors, and they map 1:1 onto the Step 4 traffic-light scoring):
+The package is installed as the `onemedia-design` Claude Code plugin — invoke the
+`onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
+(`gh repo clone Onemedia-Consulting/design-system -- --branch v1.3.0`, the tag named above).
+**Check for the package once, at kickoff, before any step runs**, and read its version from
+`.claude-plugin/plugin.json` (or `package.json`): it must be 1.3.x. A different version is not
+"absent" — use it, but state the mismatch in the deliverable label ("brand: design-system vX.Y.Z,
+skill pinned to 1.3.0") so drift is visible; never mix values from two versions. The result —
+branded or unbranded — holds for every render in the session, including the Interactive
+Dashboard after Step 4 and the finale. If the package is absent, do not stop and do not
+reconstruct values from memory: offer these two lines once —
 
-| Token | Hex | Use |
-|---|---|---|
-| `--om-flash-green` | `#34E2A8` | 🟢 Green score cells · Prio 1 chips · success states · progress-bar tip |
-| `--om-flash-yellow` | `#FFC501` | 🟡 Yellow score cells · Prio 2 chips · caution callouts |
-| `--om-flash-red` | `#FF4D4D` | 🔴 Red score cells · Prio 3 chips · blocker callouts |
+```
+/plugin marketplace add Onemedia-Consulting/design-system
+/plugin install onemedia-design
+```
 
-**Core palette** (confirmed from the official Onemedia logo SVGs):
+— and if the user declines or has no access to the private package, render every deliverable **unbranded** — system fonts, neutral greys, status *words*
+instead of status colours, no logo or mark, the text-only attribution variant (see Attribution
+system) — and label it "unbranded; install `onemedia-design` for the branded version". The
+workflow, scores and content never depend on the design system.
 
-| Token | Hex | Role |
-|---|---|---|
-| `--om-darkpurple` | `#2B1B4E` | Primary dark background · cover slides · table headers |
-| `--om-night` | `#1E2A4A` | Secondary dark background |
-| `--om-shadow` | `#226975` | Deep teal accent · body headings on light · progress-bar fill |
-| `--om-amethyst` | `#6B5BFF` | Vivid violet accent · section dividers |
-| `--om-lilac` | `#C5B0FF` | Soft purple highlight · ring overlays |
-| `--om-lightblue` | `#21B0FF` | Info blue · hover states |
-| `--om-green` | `#34E2A8` | Brand green (same hex as Flash Green) · positive accents |
-| `--om-lightgrey` | `#D6DDE6` | Surface · zebra rows · progress-bar track |
-| `--om-white` | `#FFFFFF` | Light surface · body text on dark |
+### Skill-specific mapping
 
-**Molequle brand** (for the prominent attribution block only):
-
-| Token | Hex | Role |
-|---|---|---|
-| `--molequle-ink` | `#2D3958` | Molequle wordmark + icon ink |
-
-**Gradients** (signature Onemedia cover/divider look — use these, not flat colors):
-
-| Name | Direction | Stops |
-|---|---|---|
-| Dark cover | `180deg` | `#226975 → #2B1B4E` (Shadow → Darkpurple) |
-| Dark accent | `180deg` | `#2B1B4E → #6B5BFF` (Darkpurple → Amethyst) |
-| Hero panel | `90deg` | `#2B1B4E → #226975` (Darkpurple → Shadow), with a layered green + lilac ring composition positioned **on the right side** so it does not overlay the title/tagline |
-| Light surface | `180deg` | `#FFFFFF → #D6DDE6` |
-
-### Typography
-
-- **Headings — Krona One** (Google Font: https://tinyurl.com/krona-one). Uppercase with wide tracking. Fallback stack: `'Krona One', 'Arial Black', sans-serif`.
-- **Accents / emphasis — Proxima Nova Bold**. Fallback stack: `'Proxima Nova', 'Montserrat', 'Inter', sans-serif`.
-- **Body copy — Proxima Nova Light**. Same fallback stack.
-- **Mono (code / IDs / counts)** — `'JetBrains Mono', 'Menlo', monospace`.
-
-### Design language
-
-The Onemedia keyvisual is dark gradient backdrops with overlapping ring / donut shapes in Flash Green, Lilac, and Lightblue — often partially cropped at slide/page edges. Covers and section dividers *should* use a ring-composition + gradient rather than plain solid color; it's what makes every artifact feel Onemedia rather than generic.
-
-### Tool-specific directives
-
-- **`docx`** — heading 1 in Darkpurple (`#2B1B4E`), heading 2 in Shadow (`#226975`), Krona One. Table header row: Darkpurple fill, white Krona One text. Zebra rows: Lightgrey (`#D6DDE6`). Score cells: Flash Colors as background with white text. Body: Proxima Nova Light, 11pt. Footer: subtle Attribution Block on the last page only (see Attribution System below).
-- **`pptx`** — invoke `theme-factory` with the Onemedia tokens before rendering. Cover layout: Dark cover gradient + ring motif + Krona One uppercase title in white. Section dividers: Darkpurple→Amethyst gradient + single amethyst ring. Content slides: white background, Shadow-colored headings, Proxima Nova Light body.
-- **`web-artifacts-builder`** — map Tailwind `primary → --om-darkpurple`, `accent → --om-amethyst`, `success → --om-flash-green`, `warning → --om-flash-yellow`, `destructive → --om-flash-red`, `muted → --om-lightgrey`. shadcn tokens follow. Load Krona One via Google Fonts CDN; use Inter as the web fallback for Proxima Nova if the licensed font is unavailable.
-- **`canvas-design`** (one-pager) — dark-gradient header band with the ring motif, Krona One uppercase title, light body section with Proxima Nova Light, Flash-Color chips for Prio 1/2/3, attribution footer at bottom.
+- Step 4 traffic-light scores and the Prio 1 / 2 / 3 chips use the status pairs from
+  `tokens/charts.css`: `--chart-status-good` (Prio 1 / green cell), `--chart-status-warning`
+  (Prio 2 / yellow cell), `--chart-status-critical` (Prio 3 / red cell), each with its `-text` ink.
+  Never colour alone: the cell also carries the word.
+- Progress bar (Step 3 → 4): `--om-shadow` fill on `--om-lightgrey` track, `--om-flash-green` tip.
+- Impact / Effort 2×2: chips in `--chart-cat-1`; the Quick Wins quadrant tinted `--om-green-20`.
+- Cover and header bands: `--om-grad-hero` with the circle motif on the right so the title stays readable.
 
 ### Attribution system
 
-Two variants — pick by context:
+Two variants — pick by context. Type and inks follow `presentation/omc-brand.md` (Europa Light,
+Shadow ink at reduced opacity); the Onemedia mark is `assets/logo/onemedia-mark.svg`, the Molequle
+mark `assets/partners/molequle-logo.svg` (ink `#2d3958`, a partner brand, not an OMC token).
 
-**Subtle** — for intermediate surfaces and long deliverables where the attribution shouldn't compete with the content. One muted line, **last page / bottom only**, never on every page. Render in Proxima Nova Light, 10pt, Shadow color at ~55% opacity, center-aligned:
+**Subtle** — intermediate surfaces and long deliverables. One muted line, last page / bottom only,
+never on every page, centred:
 
 ```
 Onemedia Consulting · onemedia-consulting.com  ·  Molequle · molequle.io
 ```
 
-**Prominent** — for the one-page Use Case Brief, Executive Summary, 90-Day Roadmap deck, PPTX cover slides, and the end-of-process closing message. Two-column layout with logos, wordmarks, brand claims, and URLs. Single vertical divider between columns in Lightgrey.
-
-Layout template (text equivalent — render at deliverable scale with the actual SVGs below):
+**Prominent** — the signature one-pager, Executive Summary, roadmap deck cover and final slide,
+PPTX cover, HTML dashboard footer, and the end-of-process closing message. Two columns, marks +
+wordmarks + claims + URLs, a single Light Grey vertical divider:
 
 ```
-[Onemedia icon]  Onemedia Consulting          │  [Molequle icon]  Molequle
+[Onemedia mark]  Onemedia Consulting          │  [Molequle mark]  Molequle
                  Unleash the power of insights.│                   Context is the moat.
                  onemedia-consulting.com       │                   molequle.io
 ```
 
-Rendering rules:
-- **Brand names use a single font, proper title casing** — "Onemedia Consulting" and "Molequle". Never all-caps, never split styling across the wordmark.
-- Wordmark color: Onemedia = `--om-darkpurple` (`#2B1B4E`); Molequle = `--molequle-ink` (`#2D3958`).
-- Claim: italic Proxima Nova Light, Shadow color, 12pt.
-- URL: Proxima Nova Light, Shadow color at ~85% opacity, 11pt.
-- Logo icon: 44px square, original SVG fills preserved — don't recolor.
+Rules: brand names in one face, title case ("Onemedia Consulting", "Molequle") — never all-caps,
+never split styling. Wordmark inks: Onemedia `--om-darkpurple`, Molequle `#2d3958`. Claims italic
+Europa Light in `--om-shadow`; URLs Europa Light in `--om-shadow` at ~85 %. Marks 44 px square,
+original fills preserved — never recolour. Content slides carry no footer.
 
-**Brand claims** (use these exact phrases, punctuation included):
-- Onemedia Consulting: **"Unleash the power of insights."**
-- Molequle: **"Context is the moat."**
-
-**Onemedia icon — inline SVG** (embed verbatim into every prominent block):
-
-```svg
-<svg viewBox="0 0 396.9 396.9" width="44" height="44" xmlns="http://www.w3.org/2000/svg" aria-label="Onemedia Consulting">
-  <path fill="#21B0FF" d="M71.9,236.5v-57.2c0-3.7,3-6.9,6.7-7.2c46.7-3.2,78.8-45,81.6-87.9c0.2-3.8,3.5-7,7.2-7h63.2c4.1,0,7.4,3.8,7.2,7.8c-3.8,87.7-70.6,154.7-158.4,158.4C75.5,243.7,71.9,240.6,71.9,236.5z"/>
-  <path fill="#34E2A8" d="M315.6,161h-60.5c-14.7,49-50.5,88.2-97.5,106v53.4c0,4.1,3.1,7.4,7.2,7.2c87.8-3.7,154.3-71,158.1-158.7C323.1,164.8,319.7,161,315.6,161z"/>
-  <path fill="#226975" d="M243.5,189.6C225.3,225,195,252.8,157.6,267v53.4c0,4.1,3.1,7.4,7.2,7.2c3.7-0.2,7.3-0.5,11-0.8C214.6,292.9,240.1,244.3,243.5,189.6z"/>
-</svg>
-```
-
-**Molequle icon — inline SVG**:
-
-```svg
-<svg viewBox="0 0 30 30" width="44" height="44" xmlns="http://www.w3.org/2000/svg" aria-label="Molequle">
-  <path fill="#2D3958" d="M30 25.1786C30 27.8414 27.7674 30 25.0133 30C22.2592 30 20.0266 27.8414 20.0266 25.1786C20.0266 22.5158 22.2592 20.3571 25.0133 20.3571C27.7674 20.3571 30 22.5158 30 25.1786Z"/>
-  <path fill="#2D3958" d="M16.531 27.1224C15.5161 27.3695 14.4552 27.5 13.3625 27.5C5.92664 27.5 0 21.456 0 13.75C0 6.00618 5.92664 0 13.3625 0C20.7984 0 26.7619 6.00618 26.7619 13.75C26.7619 14.7058 26.6701 15.6361 26.4952 16.5324C25.8371 16.3481 25.1466 16.25 24.4347 16.25C23.2578 16.25 22.1393 16.5181 21.129 17.0007C21.4868 16.0134 21.6819 14.9212 21.6819 13.75C21.6819 8.65041 18.0376 5.06181 13.3625 5.06181C8.68749 5.06181 5.04316 8.65041 5.04316 13.75C5.04316 18.8118 8.68749 22.4004 13.3625 22.4004C14.6406 22.4004 15.8417 22.1322 16.9123 21.639C16.5112 22.6738 16.2898 23.8091 16.2898 25C16.2898 25.7319 16.3734 26.4429 16.531 27.1224Z"/>
-</svg>
-```
-
-**Which variant to use where:**
-
-| Surface | Variant |
-|---|---|
-| One-page Use Case Brief (bottom) | **Prominent** |
-| Executive Summary (last page) | **Prominent** |
-| 90-Day Roadmap deck (cover + final slide) | **Prominent** |
-| PPTX cover slide | **Prominent** |
-| PPTX content slides | *(no footer — cover + final only)* |
-| End-of-process closing message in chat | **Prominent** |
-| Interactive HTML Dashboard (bottom of exec-summary card) | **Prominent** |
-| Word doc content pages | **Subtle** (last page only) |
-| Intermediate / partial deliverables | **Subtle** (last page only) |
+**Brand claims** (exact): Onemedia Consulting — **"Unleash the power of insights."**;
+Molequle — **"Context is the moat."**
 
 ---
 
@@ -477,11 +430,11 @@ A Crawl/Walk/Run plan:
 A self-contained HTML artifact generated via the `web-artifacts-builder` skill — shareable as a single file. This is the signature deliverable and should be produced **automatically at two moments**: the instant Step 4 scoring completes (immediate visual payoff), and again at the finale alongside the one-pager.
 
 Contents:
-- **Header band** — Dark cover gradient (Shadow → Darkpurple) with a Flash Green ring and a Lilac ring overlapping on the **right side** (signature Onemedia keyvisual — positioned right so the title and tagline on the left stay readable). Krona One title: "AI PRIORITIZATION DASHBOARD".
-- **Prio 1 cards** — pinned at top, dark gradient cards with a Flash Green accent bar, each showing use case name, owner, success metric, and the 5 criterion scores as color chips.
-- **Scored matrix** — clickable table. Each score cell uses its Flash Color as background. Hovering reveals *why* that criterion scored Green/Yellow/Red in a small tooltip.
-- **Impact / Effort 2×2** — real grid with use-case chips positioned by their scores; the Quick Wins quadrant (top-left) glows in Flash Green.
-- **Executive summary card** — bottom, light surface gradient, Krona One heading, Proxima Nova Light body, attribution footer.
+- **Header band** — hero gradient `--om-grad-hero` (Dark Purple → Shadow) with a Flash Green ring and a Lilac ring overlapping on the **right side** (signature Onemedia keyvisual — positioned right so the title and tagline on the left stay readable). Krona One title: "AI PRIORITIZATION DASHBOARD".
+- **Prio 1 cards** — pinned at top, dark gradient cards with a `--om-flash-green` accent bar, each showing use case name, owner, success metric, and the 5 criterion scores as status chips: `--chart-status-good` / `-warning` / `-critical` fill with the matching `-text` ink and the word (Green / Yellow / Red), never colour alone.
+- **Scored matrix** — clickable table. Each score cell uses the status pair from `tokens/charts.css` (`--chart-status-*` background, `--chart-status-*-text` ink) and carries the status word; brand swatches are not chart colours. Hovering reveals *why* that criterion scored Green/Yellow/Red in a small tooltip.
+- **Impact / Effort 2×2** — real grid with use-case chips positioned by their scores; the Quick Wins quadrant (top-left) is tinted `--om-green-20`.
+- **Executive summary card** — bottom, light surface gradient, Krona One heading, Europa Light body, attribution footer.
 
 ### Which tool for which deliverable
 
@@ -493,7 +446,7 @@ Contents:
 | 90-Day Roadmap | `pptx` | 3-slide Crawl/Walk/Run deck with section dividers |
 | Interactive Dashboard | `web-artifacts-builder` | Auto-generated after Step 4 and at the finale |
 
-Always invoke `theme-factory` with the Onemedia tokens from the Visual Identity section before any `pptx` or `canvas-design` render, so every artifact inherits the brand system.
+When the design system is present, invoke `theme-factory` with its `tokens/tokens.json` before any `pptx` or `canvas-design` render, so every artifact inherits the brand system. In the unbranded fallback (package absent, see Visual Identity) skip `theme-factory` and render with the tool's neutral defaults — never with brand values from memory.
 
 ---
 
@@ -544,4 +497,4 @@ This framework was developed by Wolfgang Strassburger, Founder & CEO of Onemedia
 
 Contextual intelligence in this framework is powered by Molequle (https://molequle.io) — a context-as-a-service platform that unifies and integrates data to deliver context to humans, agents, and systems, extending Adobe Marketo Engage. *"Context is the moat."*
 
-When generating deliverables, stamp the **Attribution Block** from the Visual Identity section into every artifact — **Subtle** variant for intermediate surfaces (one muted line, last page only), **Prominent** variant (with logos, wordmarks, claims, and URLs) for the one-page brief, executive summary, 90-day roadmap, PPTX covers, and the end-of-process closing message.
+When generating deliverables, stamp the **Attribution Block** from the Attribution system into every artifact — **Subtle** variant for intermediate surfaces (one muted line, last page only), **Prominent** variant (with logos, wordmarks, claims, and URLs) for the one-page brief, executive summary, 90-day roadmap, PPTX covers, and the end-of-process closing message. In the unbranded fallback the Prominent variant is replaced by its **text-only** form: the same two columns with wordmarks, claims and URLs set in the body face, no marks or logos.
