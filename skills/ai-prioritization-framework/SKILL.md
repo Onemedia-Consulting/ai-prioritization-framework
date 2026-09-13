@@ -345,7 +345,7 @@ other. Read the brand from the package, never from memory:
 
 The package is installed as the `onemedia-design` Claude Code plugin (README → Install) — invoke
 the `onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
-(`gh repo clone Onemedia-Consulting/design-system`, tag above). If neither is present when the
+(`gh repo clone Onemedia-Consulting/design-system -- --branch v1.3.0`, the tag named above). If neither is present when the
 finale triggers, do not stop and do not reconstruct values from memory: offer the two install
 lines once, and if the user declines or has no access to the private package, render the
 deliverables **unbranded** — system fonts, neutral greys, status *words* instead of status
@@ -434,7 +434,7 @@ Contents:
 | 90-Day Roadmap | `pptx` | 3-slide Crawl/Walk/Run deck with section dividers |
 | Interactive Dashboard | `web-artifacts-builder` | Auto-generated after Step 4 and at the finale |
 
-Always invoke `theme-factory` with `tokens/tokens.json` from the design system before any `pptx` or `canvas-design` render, so every artifact inherits the brand system.
+When the design system is present, invoke `theme-factory` with its `tokens/tokens.json` before any `pptx` or `canvas-design` render, so every artifact inherits the brand system. In the unbranded fallback (package absent, see Visual Identity) skip `theme-factory` and render with the tool's neutral defaults — never with brand values from memory.
 
 ---
 
