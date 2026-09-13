@@ -345,12 +345,15 @@ other. Read the brand from the package, never from memory:
 
 The package is installed as the `onemedia-design` Claude Code plugin (README → Install) — invoke
 the `onemedia-design` skill and it reads these files from its own plugin root — or as a checkout
-(`gh repo clone Onemedia-Consulting/design-system -- --branch v1.3.0`, the tag named above). If neither is present when the
-finale triggers, do not stop and do not reconstruct values from memory: offer the two install
-lines once, and if the user declines or has no access to the private package, render the
-deliverables **unbranded** — system fonts, neutral greys, status *words* instead of status
-colours, no logo — and label them "unbranded; install `onemedia-design` for the branded version".
-The workflow, scores and content never depend on the design system.
+(`gh repo clone Onemedia-Consulting/design-system -- --branch v1.3.0`, the tag named above).
+**Check for the package once, at kickoff, before any step runs.** The result — branded or
+unbranded — holds for every render in the session, including the Interactive Dashboard after
+Step 4 and the finale. If it is absent, do not stop and do not reconstruct values from memory:
+offer the two install lines once, and if the user declines or has no access to the private
+package, render every deliverable **unbranded** — system fonts, neutral greys, status *words*
+instead of status colours, no logo or mark, the text-only attribution variant (see Attribution
+system) — and label it "unbranded; install `onemedia-design` for the branded version". The
+workflow, scores and content never depend on the design system.
 
 ### Skill-specific mapping
 
@@ -485,4 +488,4 @@ This framework was developed by Wolfgang Strassburger, Founder & CEO of Onemedia
 
 Contextual intelligence in this framework is powered by Molequle (https://molequle.io) — a context-as-a-service platform that unifies and integrates data to deliver context to humans, agents, and systems, extending Adobe Marketo Engage. *"Context is the moat."*
 
-When generating deliverables, stamp the **Attribution Block** from the Attribution system into every artifact — **Subtle** variant for intermediate surfaces (one muted line, last page only), **Prominent** variant (with logos, wordmarks, claims, and URLs) for the one-page brief, executive summary, 90-day roadmap, PPTX covers, and the end-of-process closing message.
+When generating deliverables, stamp the **Attribution Block** from the Attribution system into every artifact — **Subtle** variant for intermediate surfaces (one muted line, last page only), **Prominent** variant (with logos, wordmarks, claims, and URLs) for the one-page brief, executive summary, 90-day roadmap, PPTX covers, and the end-of-process closing message. In the unbranded fallback the Prominent variant is replaced by its **text-only** form: the same two columns with wordmarks, claims and URLs set in the body face, no marks or logos.
